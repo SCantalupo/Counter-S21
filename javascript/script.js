@@ -42,7 +42,7 @@ incrementButton.style.padding = '15px';
 
 // Aggiungi i pulsanti al wrapper
 buttonWrapper.appendChild(decrementButton);
-buttonWrapper.appendChild(counterDisplay);  
+buttonWrapper.appendChild(counterDisplay);  // per inserire in display tra i due bottoni
 buttonWrapper.appendChild(incrementButton);
 
 // Imposta stile per il contenitore del counter
@@ -85,4 +85,4 @@ counterContainer.appendChild(buttonWrapper);
 app.appendChild(counterContainer);
 
 // Visualizza il contatore al caricamento della pagina
-updateCounterDisplay();  
+updateCounterDisplay();  //non visualizzava il display fino a quando non veniva premuto un pulsante
