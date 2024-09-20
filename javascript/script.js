@@ -4,31 +4,51 @@ let counterValue = 0;
 // Seleziona il contenitore principale
 const app = document.getElementById('app');
 
+// Funzione per creare un elemento DOM
+function createElement(tagName, className = '', innerHTML = '') {
+    const element = document.createElement(tagName);
+    if (className) element.className = className;
+    if (innerHTML) element.innerHTML = innerHTML;
+    return element;
+}
+
 // Crea un titolo
-const title = document.createElement('h1');
-title.textContent = 'COUNTER S2I';
+const title = createElement('h1', '', 'COUNTER S2I');
 title.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 title.style.color = 'white'; 
 title.style.fontSize = '48px'; 
 title.style.marginBottom = '20px'; 
 
 // Crea il contenitore del contatore
-const counterContainer = document.createElement('div');
-counterContainer.className = 'counter-container';
+const counterContainer = createElement('div', 'counter-container');
 
 // Crea il contatore
-const counterDisplay = document.createElement('div');
+const counterDisplay = createElement('div', '', counterValue);
 counterDisplay.id = 'counter';
-counterDisplay.textContent = counterValue;
+counterDisplay.style.fontSize = '54px';  
+counterDisplay.style.margin = '0 30px';  
 
-// Crea i pulsanti
-const decrementButton = document.createElement('button');
+// Crea i pulsanti con Event Delegation
+const buttonWrapper = createElement('div', 'button-wrapper');
+const decrementButton = createElement('button', '', '-');
 decrementButton.id = 'decrement';
-decrementButton.textContent = '-';
+decrementButton.style.fontSize = '36px';  
+decrementButton.style.padding = '15px';   
 
-const incrementButton = document.createElement('button');
+const incrementButton = createElement('button', '', '+');
 incrementButton.id = 'increment';
-incrementButton.textContent = '+';
+incrementButton.style.fontSize = '36px';  
+incrementButton.style.padding = '15px';   
+
+// Aggiungi i pulsanti al wrapper
+buttonWrapper.appendChild(decrementButton);
+buttonWrapper.appendChild(counterDisplay);  
+buttonWrapper.appendChild(incrementButton);
+
+// Imposta stile per il contenitore del counter
+buttonWrapper.style.display = 'flex';
+buttonWrapper.style.alignItems = 'center'; 
+buttonWrapper.style.justifyContent = 'center'; 
 
 // Funzione per aggiornare il contatore
 function updateCounterDisplay() {
@@ -45,15 +65,13 @@ function updateCounterDisplay() {
     }
 }
 
-// Funzione per incrementare il contatore
-incrementButton.addEventListener('click', () => {
-    counterValue++;
-    updateCounterDisplay();
-});
-
-// Funzione per decrementare il contatore
-decrementButton.addEventListener('click', () => {
-    counterValue--;
+// Event Delegation per il wrapper dei pulsanti
+buttonWrapper.addEventListener('click', (event) => {
+    if (event.target.id === 'increment') {
+        counterValue++;
+    } else if (event.target.id === 'decrement') {
+        counterValue--;
+    }
     updateCounterDisplay();
 });
 
@@ -61,9 +79,10 @@ decrementButton.addEventListener('click', () => {
 app.appendChild(title);
 
 // Aggiungi gli elementi al contenitore del contatore
-counterContainer.appendChild(decrementButton);
-counterContainer.appendChild(counterDisplay);
-counterContainer.appendChild(incrementButton);
+counterContainer.appendChild(buttonWrapper);
 
 // Aggiungi il contenitore al DOM
 app.appendChild(counterContainer);
+
+// Visualizza il contatore al caricamento della pagina
+updateCounterDisplay();  
